@@ -1,4 +1,4 @@
-# zkSNARK
+# snark.js
 
 Research project on constant-size and stateless blockchains.
 
@@ -6,19 +6,16 @@ Research project on constant-size and stateless blockchains.
 
 THIS CODE IS NOT SECURE! DO NOT USE IT IN REAL LIFE!
 
+## Compatibility
 
+This project depends on the native [BigInt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) type, which is currently available only in Chrome. 
 
 ## Research References
 
 ### zkSNARKS
 - [Scalable Zero Knowledge via Cycles of Elliptic Curves](https://eprint.iacr.org/2014/595.pdf)
 - [C∅C∅: A Framework for Building Composable Zero-Knowledge Proofs](https://eprint.iacr.org/2015/1093.pdf)
-- [On the Size of Pairing-based Non-interactive Arguments?](https://eprint.iacr.org/2016/260.pdf)
-
-### Signatures 
-- [Compact Multi-Signatures for Smaller Blockchains](https://eprint.iacr.org/2018/483.pdf)
-- [Snarky Signatures: Minimal Signatures of Knowledge from Simulation-Extractable SNARKs](https://eprint.iacr.org/2017/540.pdf)
-- [MiMC: Efficient Encryption and Cryptographic Hashing with Minimal Multiplicative Complexity](https://eprint.iacr.org/2016/492.pdf)
+- [On the Size of Pairing-based Non-interactive Arguments](https://eprint.iacr.org/2016/260.pdf)
 
 ### Hash Functions
 - [Fast and simple constant-time hashing to the BLS12-381 elliptic curve](https://eprint.iacr.org/2019/403.pdf)
@@ -36,21 +33,17 @@ THIS CODE IS NOT SECURE! DO NOT USE IT IN REAL LIFE!
 - [Coda: Decentralized cryptocurrency at scale](https://cdn.codaprotocol.com/v2/static/coda-whitepaper-05-10-2018-0.pdf)
 - [EDRAX: A Cryptocurrency with Stateless Transaction Validation](https://eprint.iacr.org/2018/968.pdf)
 
+### Signatures 
+- [Compact Multi-Signatures for Smaller Blockchains](https://eprint.iacr.org/2018/483.pdf)
+- [Snarky Signatures: Minimal Signatures of Knowledge from Simulation-Extractable SNARKs](https://eprint.iacr.org/2017/540.pdf)
+- [MiMC: Efficient Encryption and Cryptographic Hashing with Minimal Multiplicative Complexity](https://eprint.iacr.org/2016/492.pdf)
 
 ### Misc
 - [Batching Techniques for Accumulators with Applications to IOPs and Stateless Blockchains](https://eprint.iacr.org/2018/1188.pdf)
 - [Verifiable Delay Functions](https://eprint.iacr.org/2018/601.pdf)
 
-
-## Implementations 
+### Related Tools 
 - [libsnark: a C++ library for zkSNARK proofs](https://github.com/scipr-lab/libsnark)
 - [libiop: a C++ library for IOP-based zkSNARKs](https://github.com/scipr-lab/libiop)
 - [A toolbox for zkSNARKs on Ethereum](https://github.com/Zokrates/ZoKrates)
 - [snarky: OCaml DSL for verifiable computation](https://github.com/o1-labs/snarky)
-
-
-### People and Organizations 
-- [Prof. Eli Ben-Sasson](http://www.cs.technion.ac.il/people/eli/)
-- [Alessandro Chiesa](http://people.eecs.berkeley.edu/~alexch/)
-- [O(1) Labs](https://o1labs.org/)
-- [zkp.science](https://zkp.science/)
