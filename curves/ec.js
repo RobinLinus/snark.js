@@ -27,13 +27,13 @@ export class CurvePoint {
         return new this.prototype.constructor(0, 0, true);
     }
 
-    // Check that a point is on the curve defined by y**2 == x**3 + b
+    // Check that a point is on the curve defined by y**2 == x**3 + x*a + b
     is_well_defined() {
         if (this.is_zero())
             return true
         const [x, y] = this.P;
         const [a, b] = [ this.constructor.a, this.constructor.b ]
-        return y.mul(y).sub(x.mul(x).mul(x)).sub(x.mul(a)).eq(b)
+        return y.pow(2n).sub(x.pow(3n)).sub(x.mul(a)).eq(b)
     }
 
     // Elliptic curve doubling

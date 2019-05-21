@@ -2,21 +2,14 @@ import { assert } from '../../../utils.js'
 import { _FQ, _FQP } from '../../../fields/field_elements.js'
 import { CurvePoint } from '../../ec.js'
 
-// The finite field 
+// The finite field FQ
 export class FQ extends _FQ {
     static get modulus() {
         return 475922286169261325753349249653048451545124879242694725395555128576210262817955800483758081n
     }
 }
 
-// Generic polynomials over the finite field
-export class FQP extends _FQP {
-    static get FQ() {
-        return FQ
-    }
-}
-
-// The group of points on curve Alt_BN128 over FQ
+// The group of points on curve MNT4-80 over FQ
 export class MNT4CurvePoint extends CurvePoint {
 
     static get order() {
@@ -37,7 +30,9 @@ export class MNT4CurvePoint extends CurvePoint {
             new FQ(363732850702582978263902770815145784459747722357071843971107674179038674942891694705904306n)
         )
     }
+
 }
+
 // Curve order should be prime
 // assert( pow(2, MNT4CurvePoint.order, MNT4CurvePoint.order) == 2 )
 
@@ -49,7 +44,14 @@ assert(MNT4CurvePoint.G.is_well_defined())
 
 
 
-// The quadratic extension field
+// Generic polynomials over the finite field FQ
+export class FQP extends _FQP {
+    static get FQ() {
+        return FQ
+    }
+}
+
+// The quadratic extension field of FQ
 export class FQ2 extends FQP {
     static get modulus_coeffs() {
         return [1, 0]
@@ -57,15 +59,15 @@ export class FQ2 extends FQP {
 }
 
 const non_residue = new FQ(17)
-// The group of points on curve Alt_BN128 over FQ2
+// The group of points on curve MNT4-80 over FQ2
 export class MNT4CurvePointFQ2 extends MNT4CurvePoint {
 
     static get a() {
-        return new FQ2([ MNT4CurvePoint.a.mul(non_residue), 0 ])
+        return new FQ2([ MNT4CurvePoint.a.mul(non_residue), 0n ])
     }
 
     static get b() {
-        return new FQ2([ 0, MNT4CurvePoint.b.mul(non_residue) ])
+        return new FQ2([ 0n, MNT4CurvePoint.b.mul(non_residue) ])
     }
 
     static get G() {
@@ -93,7 +95,7 @@ export class FQ12 extends FQP {
     }
 }
 
-// The group of points on curve Alt_BN128 over FQ12
+// The group of points on curve MNT4-80 over FQ12
 export class MNT4CurvePointFQ12 extends MNT4CurvePoint {
 
     static get b() {
@@ -125,6 +127,6 @@ export class MNT4CurvePointFQ12 extends MNT4CurvePoint {
 }
 
 // Check that the twist creates a point that is on the curve
-assert(MNT4CurvePointFQ12.G.is_well_defined())
+assert( MNT4CurvePointFQ12.G.is_well_defined() )
 
 console.log('MNT4CurvePointFQ12')
