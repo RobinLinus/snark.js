@@ -1,5 +1,5 @@
 <script type="module">
-import {Accumulator} from './rsa-accumulator.js'
+import {Accumulator, InclusionProof} from './rsa-accumulator.js'
 
 const A = new Accumulator();
 const x1 = 13n
@@ -7,9 +7,15 @@ const p_x1 = A.add(x1)
 
 const x2 = 17n
 const p_x2 = A.add(x2)
-
 p_x1.update(x2)
 
-console.log(p_x1.verify(x1, A))
+const x3 = 23n
+const p_x3 = A.add(x3)
+
+p_x1.update(x3)
+p_x2.update(x3)
+
+const p_x12 = InclusionProof.aggregate(p_x1,x1,p_x2,x2)
+console.log(p_x12.verify(x1*x2, A))
 
 </script>

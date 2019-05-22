@@ -3,9 +3,9 @@ import { assert } from '../utils.js'
 // Abstract group of elliptic curve points
 export class CurvePoint {
 
-    constructor(x, y, is_zero = false) {
-        if (is_zero) {
-            this._is_zero = true
+    constructor(x, y, is_identity = false) {
+        if (is_identity) {
+            this._is_identity = true
         } else {
             this.P = [x, y]
         }
@@ -20,11 +20,11 @@ export class CurvePoint {
     }
 
     is_identity() {
-        return this._is_zero || false
+        return this._is_identity || false
     }
 
     static identity() {
-        return new this.prototype.constructor(0, 0, true);
+        return new this.prototype.constructor(null, null, true);
     }
 
     // Check that a point is on the curve defined by y**2 == x**3 + x*a + b

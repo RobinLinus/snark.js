@@ -1,4 +1,5 @@
 import { _FQ } from '../fields/field_elements.js'
+import { egcd } from '../numbers/numbers.js'
 
 
 // The finite field of unknown order
@@ -31,8 +32,8 @@ export class Accumulator {
         return new FQ(2n)
     }
 
-    get state(){
-    	return this._state
+    get state() {
+        return this._state
     }
 
 }
@@ -40,9 +41,9 @@ export class Accumulator {
 
 export class InclusionProof {
 
-	constructor(root){
-		this._root = root 
-	}
+    constructor(root) {
+        this._root = root
+    }
 
     verify(x, A) {
         return this._root.pow(x).eq(A.state)
@@ -51,5 +52,11 @@ export class InclusionProof {
     update(y) {
         this._root = this._root.pow(y)
     }
-}
 
+    static aggregate(p1, x1, p2, x2) {
+        const [a, b, g] = egcd(x1, x2)
+        if (g !== 1n) throw Error('(x1,x2) are not coprime');
+        return new InclusionProof(p1._root.pow(b).mul(p2._root.pow(a)))
+    }
+
+}
