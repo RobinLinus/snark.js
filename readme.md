@@ -2,6 +2,8 @@
 
 Research project on constant-size and stateless blockchains.
 
+This repository is a library of cryptographic primitives for rapid prototyping of argument systems. 
+
 ## Disclaimer
 
 THIS CODE IS NOT SECURE! DO NOT USE IT IN REAL LIFE!

@@ -1,3 +1,5 @@
+// Compare to https://github.com/scipr-lab/libff/blob/f2067162520f91438b44e71a2cab2362f1c3cab4/libff/algebra/curves/mnt/mnt4/mnt4_init.cpp
+
 import { assert } from '../../../utils.js'
 import { _FQ, _FQP } from '../../../fields/field_elements.js'
 import { CurvePoint } from '../../ec.js'
@@ -30,7 +32,6 @@ export class MNT4CurvePoint extends CurvePoint {
             new FQ(363732850702582978263902770815145784459747722357071843971107674179038674942891694705904306n)
         )
     }
-
 }
 
 // Curve order should be prime
@@ -63,11 +64,11 @@ const non_residue = new FQ(17)
 export class MNT4CurvePointFQ2 extends MNT4CurvePoint {
 
     static get a() {
-        return new FQ2([ MNT4CurvePoint.a.mul(non_residue), 0n ])
+        return new FQ2([ MNT4CurvePoint.a.mul(non_residue), FQ.identity() ])
     }
 
     static get b() {
-        return new FQ2([ 0n, MNT4CurvePoint.b.mul(non_residue) ])
+        return new FQ2([ FQ.identity(), MNT4CurvePoint.b.mul(non_residue) ])
     }
 
     static get G() {
@@ -107,8 +108,8 @@ export class MNT4CurvePointFQ12 extends MNT4CurvePoint {
     }
 
     static twist(pt) {
-        if (pt.is_zero())
-            return this.zero()
+        if (pt.is_identity())
+            return this.identity()
         const [_x, _y] = pt.P
         // Field isomorphism from Z[p] / x**2 to Z[p] / x**2 - 18*x + 82
         const xcoeffs = [_x.coeffs[0].sub(_x.coeffs[1].mul(9n)), _x.coeffs[1]]

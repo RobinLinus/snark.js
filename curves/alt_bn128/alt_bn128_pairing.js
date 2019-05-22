@@ -1,5 +1,5 @@
 import {assert} from '../../utils.js'
-import { FQ, FQ12, AltBn128CurvePoint, AltBn128CurvePointFQ12 } from './alt_bn128_curve_1.js'
+import { FQ, FQ12, AltBn128CurvePoint, AltBn128CurvePointFQ12 } from './alt_bn128_curve.js'
 
 
 const ate_loop_count = 29793968203157093288n
@@ -36,7 +36,7 @@ function cast_point_to_fq12(pt){
 
 // Main miller loop
 function miller_loop(Q, P){
-    if (Q.is_zero() || P.is_zero())
+    if (Q.is_identity() || P.is_identity())
         return FQ12.one()
     let R = Q
     let f = FQ12.one()

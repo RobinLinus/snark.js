@@ -17,7 +17,7 @@ export class BLSCurvePoint extends CurvePoint {
     }
 
     static get a() {
-        return FQ.zero()
+        return FQ.identity()
     }
 
     static get b() {
@@ -60,7 +60,7 @@ export class FQ2 extends FQP {
 export class BLSCurvePointFQ2 extends BLSCurvePoint {
 
     static get a() {
-        return FQ2.zero()
+        return FQ2.identity()
     }
 
     static get b() {
@@ -96,7 +96,7 @@ export class FQ12 extends FQP {
 export class BLSCurvePointFQ12 extends BLSCurvePoint {
 
     static get a(){
-        return FQ12.zero()
+        return FQ12.identity()
     }
 
     static get b() {
@@ -108,8 +108,8 @@ export class BLSCurvePointFQ12 extends BLSCurvePoint {
     }
 
     static twist(pt) {
-        if (pt.is_zero())
-            return this.zero()
+        if (pt.is_identity())
+            return this.identity()
         const [_x, _y] = pt.P
         // Field isomorphism from Z[p] / x**2 to Z[p] / x**2 - 18*x + 82
         const xcoeffs = [_x.coeffs[0].sub(_x.coeffs[1]), _x.coeffs[1]]

@@ -8,7 +8,7 @@ const log_ate_loop_count = 61
 // Create a function representing the line between P1 and P2,
 // and evaluate it at T
 export function linefunc(P1, P2, T){
-    assert( !P1.is_zero() && !P2.is_zero() && !T.is_zero()) // No points-at-infinity allowed
+    assert( !P1.is_identity() && !P2.is_identity() && !T.is_identity()) // No points-at-infinity allowed
     const [x1, y1] = P1.P
     const [x2, y2] = P2.P
     const [xt, yt] = T.P
@@ -36,7 +36,7 @@ function cast_point_to_fq12(pt){
 
 // Main miller loop
 function miller_loop(Q, P){
-    if (Q.is_zero() || P.is_zero())
+    if (Q.is_identity() || P.is_identity())
         return FQ12.one()
     let R = Q
     let f = FQ12.one()

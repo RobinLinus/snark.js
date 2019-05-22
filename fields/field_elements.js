@@ -80,7 +80,7 @@ export class _FQ {
         return new this.prototype.constructor(1n)
     }
 
-    static zero() {
+    static identity() {
         return new this.prototype.constructor(0n)
     }
 }
@@ -240,7 +240,7 @@ export class _FQP {
         return new this.prototype.constructor(v)
     }
 
-    static zero() {
+    static identity() {
         return new this.prototype.constructor(zeros(this.prototype.degree))
     }
 

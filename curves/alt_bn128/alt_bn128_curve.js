@@ -25,7 +25,7 @@ export class AltBn128CurvePoint extends CurvePoint {
     }
 
     is_well_defined() {
-        if (this.is_zero())
+        if (this.is_identity())
             return true
         const [x, y] = this.P;
         return y.mul(y).sub(x.mul(x).mul(x)).eq(this.constructor.b)
@@ -104,8 +104,8 @@ export class AltBn128CurvePointFQ12 extends AltBn128CurvePoint {
     }
 
     static twist(pt) {
-        if (pt.is_zero())
-            return this.zero()
+        if (pt.is_identity())
+            return this.identity()
         const [_x, _y] = pt.P
         // Field isomorphism from Z[p] / x**2 to Z[p] / x**2 - 18*x + 82
         const xcoeffs = [_x.coeffs[0].sub(_x.coeffs[1].mul(9n)), _x.coeffs[1]]

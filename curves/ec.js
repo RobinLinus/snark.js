@@ -19,17 +19,17 @@ export class CurvePoint {
         return this.P[1]
     }
 
-    is_zero() {
+    is_identity() {
         return this._is_zero || false
     }
 
-    static zero() {
+    static identity() {
         return new this.prototype.constructor(0, 0, true);
     }
 
     // Check that a point is on the curve defined by y**2 == x**3 + x*a + b
     is_well_defined() {
-        if (this.is_zero())
+        if (this.is_identity())
             return true
         const [x, y] = this.P;
         const [a, b] = [ this.constructor.a, this.constructor.b ]
@@ -47,14 +47,14 @@ export class CurvePoint {
 
     // Elliptic curve addition
     add(other) {
-        if (this.is_zero())
+        if (this.is_identity())
             return other
-        if (other.is_zero())
+        if (other.is_identity())
             return this
         if (this.eq(other))
             return this.double()
         if (this.x.eq(other.x))
-            return this.constructor.zero()
+            return this.constructor.identity()
 
         const [x1, y1] = this.P
         const [x2, y2] = other.P
@@ -67,8 +67,8 @@ export class CurvePoint {
 
     // Convert P => -P
     neg(pt) {
-        if (this.is_zero())
-            return this.constructor.zero()
+        if (this.is_identity())
+            return this.constructor.identity()
         return new this.constructor(this.x, this.y.neg())
     }
 
@@ -76,7 +76,7 @@ export class CurvePoint {
     multiply(n) {
         n = BigInt(n)
         if (n == 0n)
-            return this.constructor.zero()
+            return this.constructor.identity()
         else if (n == 1n) // FIXME compare to field elements
             return this
         else if (n % 2n === 0n) // FIXME compare to field elements

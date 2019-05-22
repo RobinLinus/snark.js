@@ -9,7 +9,7 @@ export class FQ extends _FQ {
     }
 }
 
-// The group of points on curve Alt_BN128 over FQ
+// The group of points on curve MNT6 over FQ
 export class MNT6CurvePoint extends CurvePoint {
 
     static get order() {
@@ -60,7 +60,7 @@ export class FQ2 extends FQP {
     }
 }
 const non_residue = new FQ(5)
-// The group of points on curve Alt_BN128 over FQ2
+// The group of points on curve MNT6 over FQ2
 export class MNT6CurvePointFQ2 extends MNT6CurvePoint {
 
     static get a() {
@@ -99,7 +99,7 @@ export class FQ12 extends FQP {
     }
 }
 
-// The group of points on curve Alt_BN128 over FQ12
+// The group of points on curve MNT6 over FQ12
 export class MNT6CurvePointFQ12 extends MNT6CurvePoint {
 
     static get b() {
@@ -111,8 +111,8 @@ export class MNT6CurvePointFQ12 extends MNT6CurvePoint {
     }
 
     static twist(pt) {
-        if (pt.is_zero())
-            return this.zero()
+        if (pt.is_identity())
+            return this.identity()
         const [_x, _y] = pt.P
         // Field isomorphism from Z[p] / x**2 to Z[p] / x**2 - 18*x + 82
         const xcoeffs = [_x.coeffs[0].sub(_x.coeffs[1].mul(9n)), _x.coeffs[1]]
