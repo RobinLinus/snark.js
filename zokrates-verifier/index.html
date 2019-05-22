@@ -1,1 +1,10 @@
-<script type="module" src="verifier.js"></script>
+<script type="module">
+	import { verify } from './verifier.js';
+
+	console.log('Verify proof of knowledge of preimage')
+	verify('examples/preimage/verification.key', 'examples/preimage/proof.json')
+
+	// console.log('Verify proof of knowledge of root')
+	// verify('examples/root/verification.key', 'examples/root/proof2.json')
+
+</script>

@@ -3,14 +3,14 @@ import { pairing } from '../curves/alt_bn128/alt_bn128_pairing.js'
 import { assert } from '../utils.js'
 
 
-class Verifier {
+export class Verifier {
 
     static verify(verificationKey, inputs, proof) {
         const vk = verificationKey;
         assert(inputs.length + 1 == vk.gammaABC.length);
         
         // Compute the linear combination vk_x
-        let vk_x = AltBn128CurvePointFQ2.zero() 
+        let vk_x = AltBn128CurvePointFQ2.identity() 
         for (let i = 0; i < inputs.length; i++){
             vk_x = vk_x.add( vk.gammaABC[i + 1].multiply(inputs[i]))
         }
@@ -41,7 +41,7 @@ class G2Point extends AltBn128CurvePointFQ2{
     }
 }
 
-class VerificationKey{
+export class VerificationKey{
 
     static async from_url(url){
         const text = await fetch(url).then(r => r.text() )
@@ -63,7 +63,7 @@ class VerificationKey{
 
 }
 
-class Proof {
+export class Proof {
     
     static async from_url(url){
         const json = await fetch(url)
@@ -84,7 +84,7 @@ class Proof {
 
 
 
-async function verify(keyUrl, proofUrl){
+export async function verify(keyUrl, proofUrl){
     console.log('Fetching verification key')
     const k = await VerificationKey.from_url(keyUrl)
     
@@ -101,8 +101,3 @@ async function verify(keyUrl, proofUrl){
     }
     return result
 }
-
-// verify('examples/root/verification.key', 'examples/root/proof2.json')
-verify('examples/preimage/verification.key', 'examples/preimage/proof.json')
-
-
