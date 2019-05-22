@@ -1,19 +1,5 @@
 import { assert } from '../utils.js'
-// Extended euclidean algorithm to find modular inverses for
-// integers
-function inv(a, n) {
-    let t = 0n;
-    let newT = 1n;
-    let r = n;
-    let newR = a;
-    let q;
-    while (newR != 0n) {
-        q = r / newR;
-        [t, newT] = [newT, (t - q * newT) % n];
-        [r, newR] = [newR, r - q * newR];
-    }
-    return t
-}
+import { mod_inv } from '../numbers/numbers.js'
 
 
 function _n(other) {
@@ -49,18 +35,24 @@ export class _FQ {
 
     div(other) {
         const on = _n(other)
-        return new this.constructor( this.n * inv(on, this.constructor.modulus) )
+        return new this.constructor( this.n * mod_inv(on, this.constructor.modulus) )
     }
 
-    pow(other) {
-        if (other == 0n)
+    inv(){
+        return new this.constructor( mod_inv(this.n, this.constructor.modulus) )
+    }
+
+    pow(exponent) {
+        if (exponent == 0n)
             return new this.constructor(1n)
-        else if (other == 1n)
+        if (exponent == 1n)
             return new this.constructor(this.n)
-        else if (other % 2n == 0n)
-            return this.mul(this).pow(other / 2n)
+        if (exponent < 0n)
+            return this.inv().pow(-exponent)
+        if (exponent % 2n == 0n)
+            return this.mul(this).pow(exponent / 2n)
         else
-            return this.mul(this).pow(other / 2n).mul(this)
+            return this.mul(this).pow(exponent / 2n).mul(this)
     }
 
     eq(other) {
