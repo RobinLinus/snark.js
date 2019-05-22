@@ -17,7 +17,7 @@ export class BLSCurvePoint extends CurvePoint {
     }
 
     static get a() {
-        return FQ.identity()
+        return FQ.zero()
     }
 
     static get b() {
@@ -60,7 +60,7 @@ export class FQ2 extends FQP {
 export class BLSCurvePointFQ2 extends BLSCurvePoint {
 
     static get a() {
-        return FQ2.identity()
+        return FQ2.zero()
     }
 
     static get b() {
@@ -96,7 +96,7 @@ export class FQ12 extends FQP {
 export class BLSCurvePointFQ12 extends BLSCurvePoint {
 
     static get a(){
-        return FQ12.identity()
+        return FQ12.zero()
     }
 
     static get b() {

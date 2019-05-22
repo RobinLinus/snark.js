@@ -64,11 +64,11 @@ const non_residue = new FQ(17)
 export class MNT4CurvePointFQ2 extends MNT4CurvePoint {
 
     static get a() {
-        return new FQ2([ MNT4CurvePoint.a.mul(non_residue), FQ.identity() ])
+        return new FQ2([ MNT4CurvePoint.a.mul(non_residue), FQ.zero() ])
     }
 
     static get b() {
-        return new FQ2([ FQ.identity(), MNT4CurvePoint.b.mul(non_residue) ])
+        return new FQ2([ FQ.zero(), MNT4CurvePoint.b.mul(non_residue) ])
     }
 
     static get G() {
