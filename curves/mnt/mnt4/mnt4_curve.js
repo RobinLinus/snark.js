@@ -28,7 +28,7 @@ export class MNT4CurvePoint extends CurvePoint {
 
     static get G() {
         return new MNT4CurvePoint(
-            new FQ(60760244141852568949126569781626075788424196370144486719385562369396875346601926534016838n), 
+            new FQ(60760244141852568949126569781626075788424196370144486719385562369396875346601926534016838n),
             new FQ(363732850702582978263902770815145784459747722357071843971107674179038674942891694705904306n)
         )
     }
@@ -55,7 +55,21 @@ export class FQP extends _FQP {
 // The quadratic extension field of FQ
 export class FQ2 extends FQP {
     static get modulus_coeffs() {
-        return [1, 0]
+        return [17, 0]
+    }
+
+    mul(other) {
+        if (other instanceof this.constructor.FQ || typeof(other) == 'bigint' || typeof(other) == 'number') {
+            return super.mul(other)
+        } else {
+            const non_residue = this.constructor.modulus_coeffs[0]
+            const [a1, b1] = this.coeffs
+            const [a2, b2] = other.coeffs
+            const a = a1.mul(a2)
+            const b = b1.mul(b2)
+            const c = [a.add(b.mul(non_residue)), ((a1.add(b1).mul(a2.add(b2))).sub(a).sub(b))]
+            return new this.constructor(c)
+        }
     }
 }
 
@@ -64,17 +78,17 @@ const non_residue = new FQ(17)
 export class MNT4CurvePointFQ2 extends MNT4CurvePoint {
 
     static get a() {
-        return new FQ2([ MNT4CurvePoint.a.mul(non_residue), FQ.zero() ])
+        return new FQ2([MNT4CurvePoint.a.mul(non_residue), FQ.zero()])
     }
 
     static get b() {
-        return new FQ2([ FQ.zero(), MNT4CurvePoint.b.mul(non_residue) ])
+        return new FQ2([FQ.zero(), MNT4CurvePoint.b.mul(non_residue)])
     }
 
     static get G() {
         return new MNT4CurvePointFQ2(
             new FQ2([
-                438374926219350099854919100077809681842783509163790991847867546339851681564223481322252708n, 
+                438374926219350099854919100077809681842783509163790991847867546339851681564223481322252708n,
                 37620953615500480110935514360923278605464476459712393277679280819942849043649216370485641n
             ]),
             new FQ2([
@@ -82,6 +96,15 @@ export class MNT4CurvePointFQ2 extends MNT4CurvePoint {
                 424621479598893882672393190337420680597584695892317197646113820787463109735345923009077489n
             ])
         )
+    }
+
+    // Check that a point is on the curve defined by y**2 == x**3 + x*a + b
+    is_well_defined() {
+        if (this.is_identity())
+            return true
+        const [x, y] = this.P;
+        const [a, b] = [this.constructor.a, this.constructor.b]
+        return y.squared().sub(x.pow(3n)).sub(x.mul(a)).eq(b)
     }
 }
 assert(MNT4CurvePointFQ2.G.is_well_defined())
@@ -122,12 +145,12 @@ export class MNT4CurvePointFQ12 extends MNT4CurvePoint {
         return new MNT4CurvePointFQ12(nx.mul(this.w.pow(2n)), ny.mul(this.w.pow(3n)))
     }
 
-    static get G(){
+    static get G() {
         return this.twist(MNT4CurvePointFQ2.G)
     }
 }
 
 // Check that the twist creates a point that is on the curve
-assert( MNT4CurvePointFQ12.G.is_well_defined() )
+assert(MNT4CurvePointFQ12.G.is_well_defined())
 
 console.log('MNT4CurvePointFQ12')
