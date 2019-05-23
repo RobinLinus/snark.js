@@ -50,7 +50,7 @@ export class FQP extends _FQP {
 }
 
 // The quadratic extension field
-export class FQ2 extends FQP {
+export class FQ3 extends FQP {
     static get modulus_coeffs() {
         return [
             336685752883082228109289846353937104185698209371404178342968838739115829740084426881123453n, 
@@ -64,21 +64,21 @@ const non_residue = new FQ(5)
 export class MNT6CurvePointFQ2 extends MNT6CurvePoint {
 
     static get a() {
-        return new FQ2([ 0, 0, MNT6CurvePoint.a ])
+        return new FQ3([ 0, 0, MNT6CurvePoint.a ])
     }
 
     static get b() {
-        return new FQ2([ MNT6CurvePoint.b.mul(non_residue), 0, 0])
+        return new FQ3([ MNT6CurvePoint.b.mul(non_residue), 0, 0])
     }
 
     static get G() {
         return new MNT6CurvePointFQ2(
-            new FQ2([
+            new FQ3([
                 421456435772811846256826561593908322288509115489119907560382401870203318738334702321297427n, 
                 103072927438548502463527009961344915021167584706439945404959058962657261178393635706405114n,
                 143029172143731852627002926324735183809768363301149009204849580478324784395590388826052558n
             ]),
-            new FQ2([
+            new FQ3([
                 464673596668689463130099227575639512541218133445388869383893594087634649237515554342751377n,
                 100642907501977375184575075967118071807821117960152743335603284583254620685343989304941678n,
                 123019855502969896026940545715841181300275180157288044663051565390506010149881373807142903n

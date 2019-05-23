@@ -54,28 +54,48 @@ export class FQP extends _FQP {
     }
 }
 
+const non_residue = new FQ(11)
 // The quadratic extension field of FQ
 export class FQ3 extends FQP {
     static get modulus_coeffs() {
         // return [11n ,0n, 0n]
-        return [22168644070733283197994897338612733221095941481265408161807376791727499343083607817089033595478370212662133368413166734396127674284827734481031659015434501966360165723728649019457855887066657739809176476252080335185730833468062n,0n,0n]
+        return [non_residue, 0n, 0n]
+    }
+
+    mul(other) {
+        if (other instanceof this.constructor.FQ || typeof(other) == 'bigint' || typeof(other) == 'number') {
+            return super.mul(other)
+        } else {
+            const non_residue = this.constructor.modulus_coeffs[0]
+            const [a1, b1, c1] = this.coeffs
+            const [a2, b2, c2] = other.coeffs
+            const a = a1.mul(a2)
+            const b = b1.mul(b2)
+            const c = c1.mul(c2)
+            const d = [
+                a.add( b1.add(c1).mul(b2.add(c2)).sub(b).sub(c).mul(non_residue) ), 
+                a1.add(b1).mul(a2.add(b2)).sub(a).sub(b).add(c.mul(non_residue)),
+                a1.add(c1).mul(a2.add(c2)).sub(a).add(b).sub(c)
+            ]
+            return new this.constructor(d)
+        }
     }
 }
 
-const non_residue = new FQ(11)
+
 // The group of points on curve MNT6753 over FQ2
-export class MNT6753CurvePointFQ2 extends MNT6753CurvePoint {
+export class MNT6753CurvePointFQ3 extends MNT6753CurvePoint {
 
     static get a() {
-        return new FQ3([FQ.zero(), FQ.zero(), MNT6753CurvePoint.a])
+        return new FQ3([0, 0, MNT6753CurvePoint.a])
     }
 
     static get b() {
-        return new FQ3([MNT6753CurvePoint.b.mul(non_residue), FQ.zero(), FQ.zero()])
+        return new FQ3([MNT6753CurvePoint.b.mul(non_residue), 0, 0])
     }
 
     static get G() {
-        return new MNT6753CurvePointFQ2(
+        return new MNT6753CurvePointFQ3(
                 new FQ3([
                     new FQ(46538297238006280434045879335349383221210789488441126073640895239023832290080310125413049878152095926176013036314720850781686614265244307536450228450615346834324267478485994670716807428718518299710702671895190475661871557310n),
                     new FQ(10329739935427016564561842963551883445915701424214177782911128765230271790215029185795830999583638744119368571742929964793955375930677178544873424392910884024986348059137449389533744851691082159233065444766899262771358355816328n),
@@ -92,7 +112,7 @@ export class MNT6753CurvePointFQ2 extends MNT6753CurvePoint {
 
 
 
-assert(MNT6753CurvePointFQ2.G.is_well_defined())
+assert(MNT6753CurvePointFQ3.G.is_well_defined())
 
 
 
@@ -131,7 +151,7 @@ export class MNT6753CurvePointFQ12 extends MNT6753CurvePoint {
     }
 
     static get G() {
-        return this.twist(MNT6753CurvePointFQ2.G)
+        return this.twist(MNT6753CurvePointFQ3.G)
     }
 }
 
