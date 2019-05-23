@@ -42,6 +42,10 @@ export class _FQ {
         return new this.constructor( mod_inv(this.n, this.constructor.modulus) )
     }
 
+    squared(){
+        return this.mul(this)
+    }
+
     pow(exponent) {
         if (exponent == 0n)
             return new this.constructor(1n)
@@ -177,7 +181,7 @@ export class _FQP {
 
     pow(other) {
         if (other == 0n)
-            return new this.constructor([1n].concat(zeros(this.degree - 1)))
+            return this.constructor.one()
         else if (other == 1n)
             return new this.constructor(this.coeffs)
         else if (other % 2n == 0n)
@@ -208,6 +212,10 @@ export class _FQP {
             [lm, low, hm, high] = [nm, next, lm, low]
         }
         return new this.constructor( lm.slice(0, this.degree) ).div( low[0] )
+    }
+
+    squared(){
+        return this.mul(this)
     }
 
     eq(other) {

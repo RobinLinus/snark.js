@@ -1,3 +1,4 @@
+// Modular exponentiation
 export function pow(a, b, n) {
     a = a % n;
     let result = 1n;
@@ -18,6 +19,7 @@ export function pow(a, b, n) {
     return result;
 }
 
+// Extended Euclidean algorithm
 export function egcd(m, n) {
     let a1 = 1n;
     let b1 = 0n;
@@ -42,6 +44,7 @@ export function egcd(m, n) {
     return [a, b, d];
 }
 
+// Modular inverse
 export function mod_inv(x, n) {
     const [a, b, g] = egcd(x, n)
     if (g != 1n)

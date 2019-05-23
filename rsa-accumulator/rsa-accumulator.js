@@ -9,27 +9,29 @@ export class FQ extends _FQ {
     }
 }
 
-
 export class Accumulator {
+
+    // Group Generator 
+    static get G() {
+        return new FQ(2n)
+    }
 
     constructor() {
         this._state = Accumulator.G
     }
 
+    // Add x to the set and return an inclusion proof
     add(x) {
         const prev_state = this._state;
         this._state = this._state.pow(x)
         return new InclusionProof(prev_state)
     }
 
+    // Remove x from the set if the inclusion proof is valid 
     remove(x, proof) {
-        if (proof.verify(x, this))
+        if (!proof.verify(x, this))
             throw 'Invalid proof'
         this._state = proof
-    }
-
-    static get G() {
-        return new FQ(2n)
     }
 
     get state() {
@@ -37,7 +39,6 @@ export class Accumulator {
     }
 
 }
-
 
 export class InclusionProof {
 

@@ -32,7 +32,7 @@ export class CurvePoint {
         if (this.is_identity())
             return true
         const [x, y] = this.P;
-        const [a, b] = [ this.constructor.a, this.constructor.b ]
+        const [a, b] = [this.constructor.a, this.constructor.b]
         return y.pow(2n).sub(x.pow(3n)).sub(x.mul(a)).eq(b)
     }
 
@@ -68,13 +68,15 @@ export class CurvePoint {
     // Convert P => -P
     neg(pt) {
         if (this.is_identity())
-            return this.constructor.identity()
+            return this
         return new this.constructor(this.x, this.y.neg())
     }
 
     // Elliptic curve point multiplication
     multiply(n) {
         n = BigInt(n)
+        if (this.is_identity())
+            return this
         if (n == 0n)
             return this.constructor.identity()
         else if (n == 1n) // FIXME compare to field elements
